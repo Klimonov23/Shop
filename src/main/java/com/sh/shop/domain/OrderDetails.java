@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="order_details")
+@Table(name="orders_details")
 public class OrderDetails {
     private static final String SEQ_NAME="order_details_seq";
     @Id
