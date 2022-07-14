@@ -5,7 +5,9 @@
     <title>Add User page</title>
 </head>
 <body>
-<form th:action="@{/user/new}" th:object="${user}" method="post">
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
+<form th:action="@{/users/new}" th:object="${user}" method="post">
     <table border="1">
         <tr>
             <td>Name</td>
@@ -16,8 +18,8 @@
             <td><input type="password" th:field="*{password}"></td>
         </tr>
         <tr>
-            <td>MatchingPassword</td>
-            <td><input type="password" th:field="*{matchingPassword}"></td>
+            <td>matching_password</td>
+            <td><input type="password" th:field="*{matching_password}"></td>
         </tr>
         <tr>
             <td>Email</td>

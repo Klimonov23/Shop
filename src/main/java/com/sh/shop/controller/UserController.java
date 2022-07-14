@@ -23,11 +23,16 @@ public class UserController {
         model.addAttribute("user",new UserDTO());
         return "user";
     }
-
+    @GetMapping
+    public String userList(Model model){
+        //if (true) throw new RuntimeException("test of ErrorHandler");
+        model.addAttribute("users",userService.getAll());
+        return "userList";
+    }
     @PostMapping("/new")
     public String saveUser(UserDTO userDTO,Model model){
         if (userService.save(userDTO)){
-            return "redirect/:";
+            return "redirect:/users";
         }
         else {
             model.addAttribute("user",userDTO);
