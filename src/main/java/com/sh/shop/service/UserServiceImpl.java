@@ -4,13 +4,10 @@ import com.sh.shop.domain.Role;
 import com.sh.shop.domain.User;
 import com.sh.shop.dto.UserDTO;
 import com.sh.shop.repositories.UserRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -72,5 +69,24 @@ public class UserServiceImpl implements UserService{
                 user.getPassword(),
                 roles
         );
+    }
+    @Override
+    public User findByName(String name){
+        return userRepository.findFirstByName(name);
+    }
+    @Override
+    public void updateProfile(UserDTO dto){
+        User savedUser=userRepository.findFirstByName(dto.getUsername());
+        if (savedUser==null) throw new RuntimeException("not found"+dto.getUsername());
+        boolean isChanged=false;
+        if (dto.getPassword()!=null && !dto.getPassword().isEmpty()) {
+            isChanged=true;
+            savedUser.setPassword(password_encoder.encode(dto.getPassword()));
+        }
+        if ( !Objects.equals(dto.getEmail(),savedUser.getEmail())){
+            savedUser.setEmail(dto.getEmail());
+            isChanged=true;
+        }
+        if (isChanged) userRepository.save(savedUser);
     }
 }
