@@ -48,6 +48,11 @@ public class UserServiceImpl implements UserService{
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
     private UserDTO toDTO(User user) {
         return UserDTO.builder()
                 .username(user.getName())
