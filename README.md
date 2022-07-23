@@ -5,7 +5,7 @@
 The user can go to the website, log in and type products into the basket, form an order.
 
  <h3>Table of contents.
-  <h4>1.Domain
+  <h4>1.Domain /n
    The main application files are stored here.
    <h4>2.DTO
    Here you can see the value-object on the server side that stores the data used in the view layer.
