@@ -49,12 +49,28 @@ public class BucketServiceImpl implements BucketService{
                 .collect(Collectors.toList());
     }
 
+
     @Override
     @Transactional
     public void addProducts(Bucket bucket, List<Long> productIds) {
         List<Product> products = bucket.getProducts();
         List<Product> newProductsList = products == null ? new ArrayList<>() : new ArrayList<>(products);
         newProductsList.addAll(getCollectRefProductsByIds(productIds));
+        bucket.setProducts(newProductsList);
+        bucketRepository.save(bucket);
+    }
+
+    @Override
+    @Transactional
+    public void remoteProducts(Bucket bucket, List<Long> productIds) {
+        List<Product> products = bucket.getProducts();
+        List<Product> newProductsList = new ArrayList<>();
+        List<Product> remoteProducts = new ArrayList<>(getCollectRefProductsByIds(productIds));
+        for (Product p: products) {
+            if (!remoteProducts.contains(p)) {
+                newProductsList.add(p);
+            }
+        }
         bucket.setProducts(newProductsList);
         bucketRepository.save(bucket);
     }
@@ -83,4 +99,5 @@ public class BucketServiceImpl implements BucketService{
         bucketDTO.aggregate();
         return bucketDTO;
     }
+
 }

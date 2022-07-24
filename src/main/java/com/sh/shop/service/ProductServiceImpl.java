@@ -50,4 +50,15 @@ public class ProductServiceImpl implements ProductService{
             bucketService.addProducts(bucket, Collections.singletonList(productId));
         }
     }
+
+    @Override
+    public void removeFromUserBucket(Long productId, String username) {
+        User user = userService.findByName(username);
+        if(user == null){
+            throw new RuntimeException("User not found. " + username);
+        }
+        Bucket bucket = user.getBucket();
+        if (bucket==null) return;
+        else bucketService.remoteProducts(bucket,Collections.singletonList(productId));
+    }
 }
